@@ -102,7 +102,7 @@ export function Login() {
 
         try {
             const res = await api.post("/auth/login", sanitizedForm);
-            alert(res.data.message || "Login successful");
+            // alert(res.data.message || "Login successful");
             window.location.href = "/notes";
         } catch (error: any) {
             alert(error.response?.data?.message || "Login failed");

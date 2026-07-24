@@ -131,7 +131,7 @@ export function Register() {
 
         try {
             const res = await api.post("/auth/register", sanitizedForm);
-            alert(res.data.message);
+            // alert(res.data.message);
             window.location.href = "/notes";
         } catch (error: any) {
             alert(error.response?.data?.message || "Registration Failed");

@@ -1,4 +1,5 @@
 import { useState, ChangeEvent, FormEvent } from "react";
+import api from "../api/axios";
 
 interface UserData {
   firstName: string;
@@ -14,15 +15,26 @@ export function Register() {
     email: "",
     password: "",
   });
+  const [loading, setLoading] = useState<boolean>(false);
+ 
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setForm((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSignupForm = (e: FormEvent<HTMLFormElement>) => {
+  const handleSignupForm = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // Submit logic
+    setLoading(true);
+ try {
+    const res = await api.post("/auth/register", form);
+    alert(res.data.message);
+    window.location.href = "/notes" ;
+ } catch (error:any) {
+    alert(error.response?.data?.message || "Registration Failed");
+ } finally{
+    setLoading(false);
+ }
   };
 
   return (
@@ -94,9 +106,9 @@ export function Register() {
 
         <button
           type="submit"
-          className="w-full mt-6 px-4 py-2 text-sm font-medium text-white bg-[#171717] rounded-md hover:bg-[#262626] active:bg-[#0a0a0a] transition-colors cursor-pointer"
+          className="w-full mt-6 px-4 py-2 text-sm font-medium text-white bg-[#171717] rounded-md hover:bg-[#262626] active:bg-[#0a0a0a] transition-colors cursor-pointer" disabled = {loading}
         >
-          Register
+           {loading ? "Registering..." : "Register"}
         </button>
       </form>
     </div>

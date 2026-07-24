@@ -1,4 +1,5 @@
 import { useState, type ChangeEvent, type FormEvent } from "react";
+import { Link } from "react-router-dom";
 import api from "../api/axios";
 
 interface UserData {
@@ -16,10 +17,10 @@ interface FormErrors {
 }
 
 const sanitizeInput = (value: string) =>
-    value.replace(/[\u0000-\u001f\u007f]/g, "").trim();
+    value.replace(/[\u0000-\u001f\u007f]/g, "");
 
 const validateField = (name: keyof UserData, value: string) => {
-    const cleanedValue = sanitizeInput(value);
+    const cleanedValue = sanitizeInput(value).trim();
 
     if (name === "firstName" || name === "lastName") {
         if (!cleanedValue) {
@@ -238,6 +239,13 @@ export function Register() {
                 >
                     {loading ? "Registering..." : "Register"}
                 </button>
+
+                <p className="mt-4 text-center text-sm text-[#525252]">
+                    Already have an account? {" "}
+                    <Link to="/login" className="font-medium text-[#111111] hover:underline">
+                        Sign in
+                    </Link>
+                </p>
             </form>
         </div>
     );
